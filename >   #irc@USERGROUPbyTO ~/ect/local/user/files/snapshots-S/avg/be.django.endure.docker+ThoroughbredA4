@@ -1,0 +1,22 @@
+ function recv_key()
+> {
+>   # .. function:: recv_key
+>   #
+>   # Receive the gpg from a common list of gpg key servers
+>   #
+>   # :Arguments: * ``$1`` - GPG Key ID
+>   #
+>   # .. envvar:: GPG_SERVER_TIMEOUT
+>   #
+>   # Timeout before giving up and trying the next server. Each server is only tried once. Default: ``30``
+>   #**
+>
+>   local server
+>
+>   for server in $(shuf -e ${gpg_servers}); do
+>     if timeout "${GPG_SERVER_TIMEOUT}" gpg --batch --keyserver "${server}" --recv-keys "${1}"; then
+>       return 0
+>     fi
+>   done
+>   return 1
+> }
